@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 
-var sequelize = new Sequelize(`postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@localhost:5432/tickether`);
-console.log(`postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@localhost:5432/tickether`);
+const sequelize = new Sequelize(`postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEPORT || 'localhost:5432'}/tickether`);
 sequelize
   .authenticate()
   .then((err) => {
