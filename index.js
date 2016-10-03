@@ -10,6 +10,13 @@ app.use(jsonParser);
 
 app.post('/db/createEvent', (req, res) => {
   dbController.createEvent(req.body, res);
+  dbController.createEvent(req)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
 });
 
 app.get('/db/findEvent', (req, res) => {
@@ -30,6 +37,16 @@ app.get('/db/getAllEvents', (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+});
+
+app.post('/db/findOrCreateUser', (req, res) => {
+  dbController.findOrCreateUser(req)
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
 });
 
 

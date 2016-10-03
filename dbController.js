@@ -16,7 +16,7 @@ const controller = {
       }
     });
   }),
-  createEvent: (eventObj, res) => {
+  createEvent: req => new Promise((fulfill, reject) => {
     eventModel.create({
       eventName: eventObj.eventName,
       contractAddress: eventObj.contractAddress,
@@ -25,10 +25,9 @@ const controller = {
       endDateTime: eventObj.endDateTime })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
-      res.sendStatus(200);
+      fulfill(event);
     }).catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
+      reject(err);
     });
   },
   getAllEvents: () => new Promise((fulfill, reject) => {
@@ -46,14 +45,17 @@ const controller = {
       }
     });
   }),
-  findOrCreateUser: (userObj, res) => {
+  findOrCreateUser: req => new Promise((fulfill, reject) => {
     userModel.findOrCreate({
       where: {
-        username: userObj.username,
+        username: req.body.username,
       },
-    }).spread((user, created) => {
-      res.status(200).send(user);
-      console.log(user, created);
+    }).spread((user, created) => { // TODO: check for multiple users
+      if (user) {
+        fulfill(user);
+      } else {
+        reject('No user found');
+      }
     });
   },
 };
