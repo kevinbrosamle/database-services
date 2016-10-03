@@ -3,12 +3,14 @@ const Promise = require('bluebird');
 
 const controller = {
   findEvent: req => new Promise((fulfill, reject) => {
+    console.log(req.query);
     eventModel.findOne({
       where: {
         eventName: req.query.eventName,
       },
     }).then((event) => {
       if (event) {
+        console.log('this is the event', event);
         fulfill(event);
       } else {
         reject('No events found');
