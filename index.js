@@ -9,7 +9,7 @@ const app = express();
 app.use(jsonParser);
 
 app.post('/db/createEvent', (req, res) => {
-  dbController.createEvent(req.body, res);
+  // dbController.createEvent(req.body, res);
   dbController.createEvent(req)
     .then((result) => {
       res.status(200).send(result);

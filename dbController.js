@@ -18,18 +18,18 @@ const controller = {
   }),
   createEvent: req => new Promise((fulfill, reject) => {
     eventModel.create({
-      eventName: eventObj.eventName,
-      contractAddress: eventObj.contractAddress,
-      createDateTime: eventObj.createDateTime,
-      startDateTime: eventObj.startDateTime,
-      endDateTime: eventObj.endDateTime })
+      eventName: req.body.eventName,
+      contractAddress: req.body.contractAddress,
+      createDateTime: req.body.createDateTime,
+      startDateTime: req.body.startDateTime,
+      endDateTime: req.body.endDateTime })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
       fulfill(event);
     }).catch((err) => {
       reject(err);
     });
-  },
+  }),
   getAllEvents: () => new Promise((fulfill, reject) => {
     eventModel.findAll({
       where: {
@@ -57,7 +57,7 @@ const controller = {
         reject('No user found');
       }
     });
-  },
+  }),
 };
 
 module.exports = controller;
