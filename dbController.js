@@ -59,7 +59,7 @@ const controller = {
   findOrCreateUser: req => new Promise((fulfill, reject) => {
     userModel.findOrCreate({
       where: {
-        username: req.body.username,
+        username: req.body.data.username,
       },
     }).spread((user, created) => { // TODO: check for multiple users
       if (user) {

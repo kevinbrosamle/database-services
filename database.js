@@ -14,6 +14,10 @@ sequelize
   })
   .catch((err) => {
     console.log('Unable to connect to the database:', err);
+    setTimeout(connectDb, 10000); // try to reconnect after 10s
   });
+}
+
+connectDb();
 
 module.exports = sequelize;
