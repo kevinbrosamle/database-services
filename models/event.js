@@ -44,7 +44,7 @@ const Event = sequelize.define('event', {
 });
 
 // force: true will drop the table if it already exists
-Event.sync({ force: true }).then(() => {
+Event.sync().then(() => {
   // Table created
   // return Event.create({
   //   firstName: 'John',
