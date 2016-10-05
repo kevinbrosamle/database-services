@@ -1,15 +1,14 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
 
-var User = null;
+const User = sequelize.define('user', {
+  username: {
+    type: Sequelize.STRING,
+  },
+});
 
 const syncUser = () => {
   sequelize.authenticate().then(() => {
-    User = sequelize.define('user', {
-      username: {
-        type: Sequelize.STRING,
-      },
-    });
 
     // force: true will drop the table if it already exists
     User.sync().then(() => {
