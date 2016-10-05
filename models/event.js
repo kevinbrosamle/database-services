@@ -17,6 +17,9 @@ const Event = sequelize.define('event', {
   endDateTime: {
     type: Sequelize.DATE,
   },
+  description: {
+    type: Sequelize.STRING,
+  },
   addressLine1: {
     type: Sequelize.STRING,
   },
