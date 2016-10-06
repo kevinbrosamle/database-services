@@ -9,7 +9,6 @@ const User = sequelize.define('user', {
 
 const syncUser = () => {
   sequelize.authenticate().then(() => {
-
     // force: true will drop the table if it already exists
     User.sync().then(() => {
       // Table created

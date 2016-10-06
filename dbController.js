@@ -57,6 +57,7 @@ const controller = {
     });
   }),
   findOrCreateUser: req => new Promise((fulfill, reject) => {
+    console.log(req.body.data.username);
     userModel.findOrCreate({
       where: {
         username: req.body.data.username,
