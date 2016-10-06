@@ -19,10 +19,10 @@ const controller = {
   createEvent: req => new Promise((fulfill, reject) => {
     eventModel.create({
       eventName: req.body.eventName,
-      contractAddress: req.body.contractAddress,
-      createDateTime: req.body.createDateTime,
-      startDateTime: req.body.startDateTime,
-      endDateTime: req.body.endDateTime,
+      eventContractAddress: req.body.contractAddress,
+      eventCreateDateTime: req.body.createDateTime,
+      eventStartDateTime: req.body.startDateTime,
+      eventEndDateTime: req.body.endDateTime,
       description: req.body.description,
       addressLine1: req.body.addressLine1,
       addressLine2: req.body.addressLine2,
@@ -31,6 +31,8 @@ const controller = {
       zipPostalCode: req.body.zipPostalCode,
       country: req.body.country,
       image: req.body.image,
+      price: req.body.price,
+      quota: req.body.quota,
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
@@ -40,14 +42,16 @@ const controller = {
     });
   }),
   getAllEvents: () => new Promise((fulfill, reject) => {
+    console.log('about to find all from db')
     eventModel.findAll({
       where: {
-        startDateTime: {
+        eventStartDateTime: {
           $gte: new Date(),
         },
       },
     }).then((events) => {
       if (events) {
+        // console.log('found events from db', events);
         fulfill(events);
       } else {
         reject('No events found');

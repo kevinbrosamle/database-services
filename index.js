@@ -19,8 +19,10 @@ app.post('/db/createEvent', (req, res) => {
 });
 
 app.get('/db/findEvent', (req, res) => {
+  console.log('in dbcontroller, about to call findevent')
   dbController.findEvent(req)
     .then((event) => {
+      console.log('found event and in dbcontroller');
       res.status(200).send(event);
     })
     .catch((err) => {
@@ -31,6 +33,7 @@ app.get('/db/findEvent', (req, res) => {
 app.get('/db/getAllEvents', (req, res) => {
   dbController.getAllEvents(req)
     .then((events) => {
+      console.log('this is the result of db', events);
       res.status(200).send(events);
     })
     .catch((err) => {
