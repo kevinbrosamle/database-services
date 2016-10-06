@@ -57,9 +57,10 @@ const controller = {
     });
   }),
   findOrCreateUser: req => new Promise((fulfill, reject) => {
+    console.log(req.body.data.username);
     userModel.findOrCreate({
       where: {
-        username: req.body.username,
+        username: req.body.data.username,
       },
     }).spread((user, created) => { // TODO: check for multiple users
       if (user) {

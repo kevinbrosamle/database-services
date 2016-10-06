@@ -1,9 +1,12 @@
 const Sequelize = require('sequelize');
 
-const connectionString = `postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEADDRESS + process.env.DATABASEPORT || 'localhost:5432'}/tickether`;
+const connectionString = `postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEADDRESS || 'localhost'}:${ process.env.DATABASEPORT || '5432'}/tickether`;
+/* ${process.env.DATABASEADDRESS || 'localhost'}:${ process.env.DATABASEPORT || '5432'}/tickether`;*/
 console.log('connection string is: ', connectionString);
 const sequelize = new Sequelize(connectionString);
-sequelize
+
+const connectDb = () => {
+  sequelize
   .authenticate()
   .then((err) => {
     if (err) {
@@ -14,6 +17,10 @@ sequelize
   })
   .catch((err) => {
     console.log('Unable to connect to the database:', err);
+    setTimeout(connectDb, 10000); // try to reconnect after 10s
   });
+}
+
+connectDb();
 
 module.exports = sequelize;

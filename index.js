@@ -6,6 +6,21 @@ const dbController = require('./dbController');
 const jsonParser = bodyParser.json();
 const app = express();
 
+const allowCrossDomain = (req, res, next) => { // enable CORS
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.header('Access-Control-Max-Age', 10);
+  // intercept OPTIONS method
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+};
+
+app.use(allowCrossDomain);
+
 app.use(jsonParser);
 
 app.post('/db/createEvent', (req, res) => {
