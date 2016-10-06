@@ -42,7 +42,6 @@ const controller = {
     });
   }),
   getAllEvents: () => new Promise((fulfill, reject) => {
-    console.log('about to find all from db')
     eventModel.findAll({
       where: {
         eventStartDateTime: {
@@ -51,7 +50,6 @@ const controller = {
       },
     }).then((events) => {
       if (events) {
-        // console.log('found events from db', events);
         fulfill(events);
       } else {
         reject('No events found');
