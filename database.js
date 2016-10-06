@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(`postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEPORT || 'localhost:5432'}/tickether`);
+const connectionString = `postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEADDRESS + process.env.DATABASEPORT || 'localhost:5432'}/tickether`;
+console.log('connection string is: ', connectionString);
+const sequelize = new Sequelize(connectionString);
 sequelize
   .authenticate()
   .then((err) => {

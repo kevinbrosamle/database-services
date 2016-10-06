@@ -5,16 +5,16 @@ const Event = sequelize.define('event', {
   eventName: {
     type: Sequelize.STRING,
   },
-  contractAddress: {
+  eventContractAddress: {
     type: Sequelize.STRING,
   },
-  createDateTime: {
+  eventCreateDateTime: {
     type: Sequelize.DATE,
   },
-  startDateTime: {
+  eventStartDateTime: {
     type: Sequelize.DATE,
   },
-  endDateTime: {
+  eventEndDateTime: {
     type: Sequelize.DATE,
   },
   description: {
@@ -40,6 +40,12 @@ const Event = sequelize.define('event', {
   },
   image: {
     type: Sequelize.STRING,
+  },
+  price: {
+    type: Sequelize.FLOAT,
+  },
+  quota: {
+    type: Sequelize.INTEGER
   },
 });
 
