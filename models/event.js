@@ -17,6 +17,30 @@ const Event = sequelize.define('event', {
   endDateTime: {
     type: Sequelize.DATE,
   },
+  description: {
+    type: Sequelize.STRING,
+  },
+  addressLine1: {
+    type: Sequelize.STRING,
+  },
+  addressLine2: {
+    type: Sequelize.STRING,
+  },
+  city: {
+    type: Sequelize.STRING,
+  },
+  state: {
+    type: Sequelize.STRING,
+  },
+  zipPostalCode: {
+    type: Sequelize.STRING,
+  },
+  country: {
+    type: Sequelize.STRING,
+  },
+  image: {
+    type: Sequelize.STRING,
+  },
 });
 
 // force: true will drop the table if it already exists

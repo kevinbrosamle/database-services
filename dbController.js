@@ -22,7 +22,16 @@ const controller = {
       contractAddress: req.body.contractAddress,
       createDateTime: req.body.createDateTime,
       startDateTime: req.body.startDateTime,
-      endDateTime: req.body.endDateTime })
+      endDateTime: req.body.endDateTime,
+      description: req.body.description,
+      addressLine1: req.body.addressLine1,
+      addressLine2: req.body.addressLine2,
+      city: req.body.city,
+      state: req.body.state,
+      zipPostalCode: req.body.zipPostalCode,
+      country: req.body.country,
+      image: req.body.image,
+    })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
       fulfill(event);
