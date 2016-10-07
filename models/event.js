@@ -64,7 +64,7 @@ const syncEvent = () => {
     console.log('Error:', err);
     setTimeout(syncEvent, 10000);
   });
-}
+};
 
 syncEvent();
 
