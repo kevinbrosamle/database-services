@@ -63,7 +63,6 @@ app.post('/db/findOrCreateUser', (req, res) => {
     })
 });
 
-
 const server = app.listen(config.DB_SERVER_PORT, () => {
   console.log('Running on', config.DB_SERVER_PORT);
 });
