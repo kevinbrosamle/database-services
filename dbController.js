@@ -42,7 +42,7 @@ const controller = {
     });
   }),
   getAllEvents: (req) => new Promise((fulfill, reject) => {
-    const eventName = req.body.eventName ? `%${req.body.eventName}` : '%%'; // %% are wildcard
+    const eventName = req.query.eventName ? `%${req.query.eventName}%` : '%%'; // %% are wildcard
     eventModel.findAll({
       where: {
         eventStartDateTime: {
