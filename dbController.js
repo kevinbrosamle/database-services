@@ -34,11 +34,36 @@ const controller = {
       image: req.body.image,
       price: req.body.price,
       quota: req.body.quota,
+      numAttendees: req.body.numAttendees,
       hostname: req.body.hostname
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
       fulfill(event);
+    }).catch((err) => {
+      reject(err);
+    });
+  }),
+  updateEvent: (req) => new Promise((fulfill, reject) => {
+    var updatedEvent = {};
+    if (req.body.eventContractAddress) {
+      updatedEvent.eventContractAddress = req.body.eventContractAddress;
+    } else {
+      reject('No contract address provided');
+      return;
+    }
+    if (req.body.numAttendees) updatedEvent.numAttendees = req.body.numAttendees;
+    eventModel.update(updatedEvent, {
+      where: {
+        eventContractAddress: req.body.eventContractAddress
+      }
+    })
+    .then((result) => {
+      if (result[0] === 1) {
+        fulfill('Updated');
+      } else {
+        reject('No records found with same contract address.')
+      }
     }).catch((err) => {
       reject(err);
     });
@@ -79,7 +104,6 @@ const controller = {
     });
   }),
   findOrCreateUser: req => new Promise((fulfill, reject) => {
-    console.log(req.body.data.username);
     userModel.findOrCreate({
       where: {
         username: req.body.data.username,
