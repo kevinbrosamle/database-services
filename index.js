@@ -29,7 +29,6 @@ app.get('/db/findEvent', (req, res) => {
 });
 
 app.get('/db/getAllEvents', (req, res) => {
-  console.log('getallevents');
   dbController.getAllEvents(req)
     .then((events) => {
       res.status(200).send(events);
