@@ -41,12 +41,16 @@ const controller = {
       reject(err);
     });
   }),
-  getAllEvents: () => new Promise((fulfill, reject) => {
+  getAllEvents: (req) => new Promise((fulfill, reject) => {
+    const eventName = req.body.eventName ? `%${req.body.eventName}` : '%%'; // %% are wildcard
     eventModel.findAll({
       where: {
         eventStartDateTime: {
           $gte: new Date(),
         },
+        eventName: {
+          $ilike: eventName,
+        }
       },
     }).then((events) => {
       if (events) {
