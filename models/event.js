@@ -45,8 +45,11 @@ const Event = sequelize.define('event', {
     type: Sequelize.FLOAT,
   },
   quota: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
+  hostname: {
+    type: Sequelize.STRING
+  }
 });
 
 const syncEvent = () => {

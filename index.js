@@ -53,6 +53,16 @@ app.get('/db/getAllEvents', (req, res) => {
     });
 });
 
+app.get('/db/getAllHostEvents', (req, res) => {
+  dbController.getAllHostEvents(req)
+    .then((events) => {
+      res.status(200).send(events);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 app.post('/db/findOrCreateUser', (req, res) => {
   dbController.findOrCreateUser(req)
     .then((user) => {
@@ -62,6 +72,16 @@ app.post('/db/findOrCreateUser', (req, res) => {
       res.status(500).send(err);
     })
 });
+
+app.post('/db/addEventToUser', (req, res) => {
+  dbController.addEventToUser(req)
+      .then((user) => {
+        res.status(200).send(user);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      })
+})
 
 const server = app.listen(config.DB_SERVER_PORT, () => {
   console.log('Running on', config.DB_SERVER_PORT);
