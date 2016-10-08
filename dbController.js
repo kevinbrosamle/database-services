@@ -33,6 +33,7 @@ const controller = {
       image: req.body.image,
       price: req.body.price,
       quota: req.body.quota,
+      hostname: req.body.hostname
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
@@ -60,6 +61,22 @@ const controller = {
       }
     });
   }),
+  getAllHostEvents: (req) => new Promise((fulfill, reject) => {
+    const hostName = req.query.hostName;
+    eventModel.findAll({
+      where: {
+        hostname: {
+          $ilike: hostName,
+        }
+      },
+    }).then((events) => {
+      if (events) {
+        fulfill(events);
+      } else {
+        reject('No events found');
+      }
+    });
+  }),
   findOrCreateUser: req => new Promise((fulfill, reject) => {
     console.log(req.body.data.username);
     userModel.findOrCreate({
@@ -73,6 +90,15 @@ const controller = {
         reject('No user found');
       }
     });
+  }),
+  addEventToUser: req => new Promise((fulfill, reject) => {
+    console.log('in db controller')
+    console.log(req.body.username, 'BODY DATA');
+    userModel.findOrCreate({
+      where: {
+        username: req.body.username,
+      },
+    })
   }),
 };
 
