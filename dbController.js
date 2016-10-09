@@ -1,5 +1,6 @@
 const eventModel = require('./models/event.js');
 const userModel = require('./models/user.js');
+const userEvent = require('./models/userEvent.js');
 const Promise = require('bluebird');
 
 const controller = {
@@ -93,13 +94,46 @@ const controller = {
   }),
   addEventToUser: req => new Promise((fulfill, reject) => {
     console.log('in db controller')
-    console.log(req.body.username, 'BODY DATA');
-    userModel.findOrCreate({
-      where: {
-        username: req.body.username,
-      },
+    console.log(req.body, 'BODY DATA');
+    userEvent.create({
+      username: req.body.username,
+      eventID: req.body.eventID,
     })
+    .then((userEvent) => {
+      console.log('SUCCESS');
+      console.log(`${userEvent} added to DB`);
+      fulfill(event);
+    }).catch((err) => {
+      reject(err);
+    });
   }),
+  getTickets: (req) => new Promise((fulfill, reject) => {
+    console.log(req.query, 'IN GET TICKETS');
+    const userName = req.query.userName;
+    userEvent.findAll({
+      where: {
+        username: {
+          $ilike: userName,
+        }
+      },
+    }).then((tickets) => {
+      return Promise.map(tickets, function(ticket) {
+        console.log(ticket.id)
+        return eventModel.findOne({
+          where: {
+            id: ticket.eventID,
+          },
+        })
+      })
+    })
+    .then((result) => {
+      if (result) {
+        fulfill(result);
+      } else {
+        reject('No events found');
+      }
+    });
+   }) 
 };
 
 module.exports = controller;
