@@ -64,7 +64,6 @@ app.get('/db/getAllHostEvents', (req, res) => {
 });
 
 app.get('/db/getTickets', (req, res) => {
-  console.log('IN DB CONTROLLER FOR TICKETSSSS')
   dbController.getTickets(req)
     .then((tickets) => {
       res.status(200).send(tickets);
