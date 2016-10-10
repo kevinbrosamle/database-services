@@ -93,14 +93,11 @@ const controller = {
     });
   }),
   addEventToUser: req => new Promise((fulfill, reject) => {
-    console.log('in db controller')
-    console.log(req.body, 'BODY DATA');
     userEvent.create({
       username: req.body.username,
       eventID: req.body.eventID,
     })
     .then((userEvent) => {
-      console.log('SUCCESS');
       console.log(`${userEvent} added to DB`);
       fulfill(event);
     }).catch((err) => {
@@ -108,7 +105,6 @@ const controller = {
     });
   }),
   getTickets: (req) => new Promise((fulfill, reject) => {
-    console.log(req.query, 'IN GET TICKETS');
     const userName = req.query.userName;
     userEvent.findAll({
       where: {
@@ -118,7 +114,6 @@ const controller = {
       },
     }).then((tickets) => {
       return Promise.map(tickets, function(ticket) {
-        console.log(ticket.id)
         return eventModel.findOne({
           where: {
             id: ticket.eventID,
