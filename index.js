@@ -63,6 +63,16 @@ app.get('/db/getAllHostEvents', (req, res) => {
     });
 });
 
+app.get('/db/getTickets', (req, res) => {
+  dbController.getTickets(req)
+    .then((tickets) => {
+      res.status(200).send(tickets);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 app.post('/db/findOrCreateUser', (req, res) => {
   dbController.findOrCreateUser(req)
     .then((user) => {
