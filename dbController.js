@@ -96,6 +96,7 @@ const controller = {
     userEvent.create({
       username: req.body.username,
       eventID: req.body.eventID,
+      userWalletAddress: req.body.address,
     })
     .then((userEvent) => {
       console.log(`${userEvent} added to DB`);
@@ -114,11 +115,15 @@ const controller = {
       },
     }).then((tickets) => {
       return Promise.map(tickets, function(ticket) {
-        return eventModel.findOne({
+        let test = eventModel.findOne({
           where: {
             id: ticket.eventID,
           },
-        })
+        }).then((result) => {
+          result.dataValues.userWalletAddress = ticket.userWalletAddress;
+          return result;
+        });
+        return test;
       })
     })
     .then((result) => {

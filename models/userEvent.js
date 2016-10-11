@@ -8,6 +8,9 @@ const UserEvent = sequelize.define('userEvents', {
   username: {
     type: Sequelize.STRING,
   },
+  userWalletAddress: {
+    type: Sequelize.STRING,
+  },
 });
 
 const syncUserEvent = () => {
