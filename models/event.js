@@ -49,7 +49,13 @@ const Event = sequelize.define('event', {
   },
   hostname: {
     type: Sequelize.STRING
-  }
+  },
+  latitude: {
+    type: Sequelize.DOUBLE,
+  },
+  longitude: {
+    type: Sequelize.DOUBLE,
+  },
 });
 
 const syncEvent = () => {
