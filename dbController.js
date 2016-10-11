@@ -1,3 +1,6 @@
+const Promise = require('bluebird');
+const rp = require('request-promise');
+const config = require('./config.js');
 const eventModel = require('./models/event.js');
 const userModel = require('./models/user.js');
 const userEvent = require('./models/userEvent.js');
@@ -39,7 +42,19 @@ const controller = {
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
-      fulfill(event);
+      // posts to elasticsearch
+      rp({
+        method: 'POST',
+        url: `${config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
+        body: req.body,
+        json: true,
+      })
+      .then((obj) => {
+        console.log('Event added to ElasticSearch');
+        fulfill(event);
+      }).catch((err) => {
+        console.log('Event was not added to ElasticSearch:', err);
+      });
     }).catch((err) => {
       reject(err);
     });

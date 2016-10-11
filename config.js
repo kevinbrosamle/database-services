@@ -3,4 +3,5 @@ module.exports = {
   SERVER_URL: 'http://localhost',
   BLOCKCHAIN_PORT: 8545,
   DB_SERVER_PORT: 3004,
+  ES_SERVER_PORT: 3005,
 };
