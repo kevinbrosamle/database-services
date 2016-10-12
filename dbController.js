@@ -4,7 +4,6 @@ const config = require('./config.js');
 const eventModel = require('./models/event.js');
 const userModel = require('./models/user.js');
 const userEvent = require('./models/userEvent.js');
-const Promise = require('bluebird');
 
 const controller = {
   findEvent: req => new Promise((fulfill, reject) => {
@@ -45,7 +44,7 @@ const controller = {
       // posts to elasticsearch
       rp({
         method: 'POST',
-        url: `${config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
+        url: `${process.env.ES_SERVER_URL || config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
         body: req.body,
         json: true,
       })
@@ -154,7 +153,7 @@ const controller = {
       },
     }).then((tickets) => {
       return Promise.map(tickets, function(ticket) {
-        let test = eventModel.findOne({
+        var test = eventModel.findOne({
           where: {
             id: ticket.eventID,
           },
@@ -172,7 +171,7 @@ const controller = {
         reject('No events found');
       }
     });
-   }) 
+   })
 };
 
 module.exports = controller;
