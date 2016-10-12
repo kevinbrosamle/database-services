@@ -7,6 +7,7 @@ const Event = sequelize.define('event', {
   },
   eventContractAddress: {
     type: Sequelize.STRING,
+    unique: true,
   },
   eventCreateDateTime: {
     type: Sequelize.DATE,
@@ -45,6 +46,9 @@ const Event = sequelize.define('event', {
     type: Sequelize.FLOAT,
   },
   quota: {
+    type: Sequelize.INTEGER,
+  },
+  numAttendees: {
     type: Sequelize.INTEGER,
   },
   hostname: {

@@ -30,8 +30,18 @@ app.post('/db/createEvent', (req, res) => {
     })
     .catch((err) => {
       res.status(500).send(err);
-    })
+    });
 });
+
+app.post('/db/updateEvent', (req, res) => {
+  dbController.updateEvent(req)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+})
 
 app.get('/db/findEvent', (req, res) => {
   dbController.findEvent(req)

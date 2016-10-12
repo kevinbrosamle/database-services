@@ -1,7 +1,9 @@
+const Promise = require('bluebird');
+const rp = require('request-promise');
+const config = require('./config.js');
 const eventModel = require('./models/event.js');
 const userModel = require('./models/user.js');
 const userEvent = require('./models/userEvent.js');
-const Promise = require('bluebird');
 
 const controller = {
   findEvent: req => new Promise((fulfill, reject) => {
@@ -34,11 +36,48 @@ const controller = {
       image: req.body.image,
       price: req.body.price,
       quota: req.body.quota,
+      numAttendees: req.body.numAttendees,
       hostname: req.body.hostname
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
-      fulfill(event);
+      // posts to elasticsearch
+      rp({
+        method: 'POST',
+        url: `${process.env.ES_SERVER_URL || config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
+        body: req.body,
+        json: true,
+      })
+      .then((obj) => {
+        console.log('Event added to ElasticSearch');
+        fulfill(event);
+      }).catch((err) => {
+        console.log('Event was not added to ElasticSearch:', err);
+      });
+    }).catch((err) => {
+      reject(err);
+    });
+  }),
+  updateEvent: (req) => new Promise((fulfill, reject) => {
+    var updatedEvent = {};
+    if (req.body.eventContractAddress) {
+      updatedEvent.eventContractAddress = req.body.eventContractAddress;
+    } else {
+      reject('No contract address provided');
+      return;
+    }
+    if (req.body.numAttendees) updatedEvent.numAttendees = req.body.numAttendees;
+    eventModel.update(updatedEvent, {
+      where: {
+        eventContractAddress: req.body.eventContractAddress
+      }
+    })
+    .then((result) => {
+      if (result[0] === 1) {
+        fulfill('Updated');
+      } else {
+        reject('No records found with same contract address.')
+      }
     }).catch((err) => {
       reject(err);
     });
@@ -79,7 +118,6 @@ const controller = {
     });
   }),
   findOrCreateUser: req => new Promise((fulfill, reject) => {
-    console.log(req.body.data.username);
     userModel.findOrCreate({
       where: {
         username: req.body.data.username,
@@ -100,7 +138,7 @@ const controller = {
     })
     .then((userEvent) => {
       console.log(`${userEvent} added to DB`);
-      fulfill(event);
+      fulfill(userEvent);
     }).catch((err) => {
       reject(err);
     });
@@ -115,7 +153,7 @@ const controller = {
       },
     }).then((tickets) => {
       return Promise.map(tickets, function(ticket) {
-        let test = eventModel.findOne({
+        var test = eventModel.findOne({
           where: {
             id: ticket.eventID,
           },
@@ -133,7 +171,7 @@ const controller = {
         reject('No events found');
       }
     });
-   }) 
+   })
 };
 
 module.exports = controller;
