@@ -20,6 +20,7 @@ const controller = {
     });
   }),
   createEvent: req => new Promise((fulfill, reject) => {
+    console.log('inside of dbController createEvent, req.body is:', req.body);
     eventModel.create({
       eventName: req.body.eventName,
       eventContractAddress: req.body.contractAddress,
@@ -37,10 +38,13 @@ const controller = {
       price: req.body.price,
       quota: req.body.quota,
       numAttendees: req.body.numAttendees,
-      hostname: req.body.hostname
+      hostname: req.body.hostname,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
+      console.log('event is:', event);
       // posts to elasticsearch
       rp({
         method: 'POST',
