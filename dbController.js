@@ -138,7 +138,7 @@ const controller = {
     })
     .then((userEvent) => {
       console.log(`${userEvent} added to DB`);
-      fulfill(event);
+      fulfill(userEvent);
     }).catch((err) => {
       reject(err);
     });
