@@ -37,14 +37,16 @@ const controller = {
       price: req.body.price,
       quota: req.body.quota,
       numAttendees: req.body.numAttendees,
-      hostname: req.body.hostname
+      hostname: req.body.hostname,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
     })
     .then((event) => {
       console.log(`${event.eventName} added to DB`);
       // posts to elasticsearch
       rp({
         method: 'POST',
-        url: `${process.env.ES_SERVER_URL || config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
+        url: `${config.ES_SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
         body: req.body,
         json: true,
       })

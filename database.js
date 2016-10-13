@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-
-const connectionString = `postgres://${process.env.DATABASEUSER || 'postgres'}:${process.env.DATABASEPASSWORD || 'password'}@${process.env.DATABASEADDRESS || 'localhost'}:${ process.env.DATABASEPORT || '5432'}/tickether`;
+const config = require('./config');
+const connectionString = config.POSTGRES_CONNECTION_STRING;
 /* ${process.env.DATABASEADDRESS || 'localhost'}:${ process.env.DATABASEPORT || '5432'}/tickether`;*/
 console.log('connection string is: ', connectionString);
 const sequelize = new Sequelize(connectionString);
