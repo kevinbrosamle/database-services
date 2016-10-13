@@ -46,7 +46,7 @@ const controller = {
       // posts to elasticsearch
       rp({
         method: 'POST',
-        url: `${process.env.ES_SERVER_URL || config.SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
+        url: `${config.ES_SERVER_URL}:${config.ES_SERVER_PORT}/api/events`,
         body: req.body,
         json: true,
       })
