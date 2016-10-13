@@ -24,7 +24,6 @@ app.use(allowCrossDomain);
 app.use(jsonParser);
 
 app.post('/db/createEvent', (req, res) => {
-  console.log('at db/createEvent:', req.body);
   dbController.createEvent(req)
     .then((result) => {
       res.status(200).send(result);
